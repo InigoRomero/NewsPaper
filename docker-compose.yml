@@ -1,0 +1,38 @@
+version: '3'
+services:
+  web:
+    image: node:alpine
+    build: ./web-site
+    ports:
+      - "3000:3000"
+    working_dir: /usr/src/app
+    volumes:
+       - ./web-site:/usr/src/app
+      #  - /usr/src/app/node_modules
+    command: npm install nodemon
+    command: npm install express-session
+    command: npm install ws -S
+    command: npm install body-parser -S
+    command: npm install alertifyjs -S
+    command: npm install chart.js -S
+    command: npm start
+    command: nodemon --legacy-watch
+    depends_on:
+      - "mongo"
+    links:
+      - "mongo"
+  mongo:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+  adminmongo:
+    image: 0x59/admin-mongo:latest
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+      - CONN_NAME=mongo
+      - DB_HOST=mongo
+    links:
+      - mongo
+    

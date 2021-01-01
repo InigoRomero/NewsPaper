@@ -1,0 +1,250 @@
+<!-- jQuery-2.2.4 js -->
+<script src="js/jquery/jquery-2.2.4.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<div class="col-12 col-md-12 col-lg-12">
+    <div class="row">
+
+        <section class="col-12 col-lg-4" id="filtrosUsers">Filtrar por
+            <div class="wrapper">
+
+                <div class="dropdown">
+                    <label data-value="1">Tipo de usuario  <i class="fas fa-sort-down"></i></label>
+                    <ul>
+                        <li data-value="1" class="selected">Tipo de usuario</i></li>
+                        <li data-value="2">Lector</i></li>
+                        <li data-value="3">Escritor</i></li>
+                    </ul>
+                </div>
+            
+                </div>
+        </section>
+        <div class="col-12 col-lg-1"></div>
+        <h3 class="col-12 col-lg-3" class="titulosBackend">Lista de Usuarios</h3>
+        <section class="col-12 col-lg-4" id="busquedaUsers">Búsqueda
+            <span><input type="text" id="buscador"/><i class="fas fa-search"></i></span>
+        </section>
+        
+
+    </div>
+</div>
+
+
+<ul class="col-12 col-md-12 col-lg-12" id="todosUsers">
+    <table class="row" id="listaUsuarios">
+        <tr class="col-12 col-lg-12">
+            <th >Estado</th>
+            <th>Foto</th>
+            <th>Tipo de Usuario</th>
+            <th>Correo</th>
+            <th>Nombre y apellidos</th>
+            <th>Nombre de usuario</th>
+            <th>Opciones</th>
+        </tr>
+    </table>
+</ul>
+
+<section class="col-12 col-md-12 col-lg-12" id="paginacionUsers">
+    <span class="row">
+    </span>
+</section>
+
+
+<script>
+        
+        //BÚSQUEDA DE ARTÍCULOS
+        var Usuarios = <%- JSON.stringify(users) %>;
+        var Paginas = [0, 3, 6, 9, 12, 15, 18, 21, 24, 
+                      27, 30, 33, 37, 40, 43, 46, 49, 
+                      52, 55, 58, 61, 64, 67, 70, 73];
+        var UsuariosAux = Usuarios.slice(0, 3);
+        var texto="";
+        
+        const tabla = document.querySelector('#listaUsuarios')
+        const buscador = document.querySelector('#buscador');
+
+        //FILTRO
+        $(function() {
+            $('.dropdown ul li').on('click', function() {
+
+                var label = $(this).parent().parent().children('label');
+                label.attr('data-value', $(this).attr('data-value'));
+                label.html($(this).html()+"  <i class='fas fa-sort-down'></i>");
+
+                $(this).parent().children('.selected').removeClass('selected');
+                $(this).addClass('selected');
+
+                obtenerUsuariosSelect($(this).text());
+                paginarUsuarios(UsuariosAux);
+                UsuariosAux= UsuariosAux.slice(0, 3);
+                filtrar();
+                
+            });
+        });
+
+        function obtenerUsuariosSelect(filtro){
+            console.log(filtro);
+                switch(filtro){
+
+                    case 'Lector':
+
+                    UsuariosAux= Usuarios.filter(obtenerLectores);
+                    break;
+
+
+                    case 'Escritor':
+
+                    UsuariosAux= Usuarios.filter(obtenerEscritores)
+                    break;
+
+                    case 'Tipo de usuario':
+
+                    UsuariosAux= Usuarios;
+                    break;
+
+                }
+        }
+
+        function obtenerLectores(Usuario){
+            return Usuario.TipoUsuario=='Lector';
+        }
+        function obtenerEscritores(Usuario){
+            return Usuario.TipoUsuario=='Escritor';
+        }
+
+        //PAGINACIÓN, cada página tendrá 3 usuarios
+        function paginarUsuarios(UsuariosF){
+            $("#paginacionUsers span").html('');
+            var numUsuarios= UsuariosF.length;
+           
+            if (numUsuarios<=3){
+                var numPaginas= Math.round(numUsuarios/2)-1;
+            }else{
+                var numPaginas= Math.floor(numUsuarios/2);
+            }
+            if (numPaginas<=0){
+                numPaginas=1;
+            }
+
+            for(i=0;i<numPaginas;i++){
+                $("#paginacionUsers span").append(`<button>${(i+1)}</button`);
+            }
+            $("#paginacionUsers button").eq(0).css("background", "#666");
+
+            $("#paginacionUsers button").on('click', function(){
+                //tenemos que tener en cuenta si hay algún filtro activo, para tenerlo en cuenta
+                obtenerUsuariosSelect($('.dropdown label').text());
+                $("#paginacionUsers button").css("background", "#4CAF50");
+                $(this).css("background", "#666");
+
+                if (UsuariosF.length>3){
+                    var UsuarioActual=Paginas[$(this).text()-1];
+                    if ($('.dropdown label').text()=="Tipo de usuario"){
+                        UsuariosAux= UsuariosF.slice(UsuarioActual, UsuarioActual+3);
+                    }else{
+                        UsuariosAux= UsuariosAux.slice(UsuarioActual, UsuarioActual+3);
+                    }
+                    
+                    filtrar();
+                }
+            });
+        }
+
+        const filtrar = ()=>{
+            $(".lineas").html('');
+            let i=0;
+            texto = buscador.value.toLowerCase();
+
+            for (let Usuario of UsuariosAux){
+                let nombre = Usuario.Nombre.toLowerCase()+" "+Usuario.Apellidos.toLowerCase();
+                if (nombre.indexOf(texto) !== -1){
+                    $("#listaUsuarios").append(`
+                            <tr class="lineas" class="col-12 col-lg-12">
+                                <form method="POST" id="form${(i+1)} ">
+                                    <td><canvas width=50 height=50 id="canvas${(i+1)}"></td>
+                                    <td><i class="fas fa-user"></i></td>
+                                    <td><input name="TipoUsuario" readonly type="text" value="${Usuario.TipoUsuario}"></td>
+                                    <td><input id="Correo${(i+1)} " name="Correo" readonly type="text" value="${Usuario.Correo}"></td>
+                                    <td><input name="NombreApellidos" readonly type="text" value="${Usuario.Nombre} ${Usuario.Apellidos}"></td>
+                                    <td><input name="Username" readonly type="text" value=${Usuario.username}></td>
+                                    <td class="opcionesUsers">
+                                        <span id="eliminarUser${(i+1)}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </td>
+                                </form>
+                            </tr>`);
+    
+                    var canvas = $("#canvas"+(i+1))[0];
+                    var canvasEstado= canvas.getContext("2d");
+                    canvasEstado.beginPath();
+                    canvasEstado.arc(22.5, 27.5, 10, 0, 2 * Math.PI);
+                    canvasEstado.stroke();
+                    
+                    if (!Usuario.Activado){
+                        canvasEstado.fillStyle = "red";
+                        $("#canvas"+(i+1)).click(function(){
+
+                            var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
+                            
+                            var payload = Usuario.Correo;
+                            socket.emit('activacion', payload);
+    
+                            socket.on("activacionCorrecta", function(data){
+                                console.log("Se ha activado el usuario "+data);
+                                canvasEstado.fillStyle = "green";
+                                canvasEstado.fill();
+                            });
+                            return false;
+                        });
+                    }else{
+                        $("#form"+i).css("cursor", "auto");
+                        canvasEstado.fillStyle = "green";
+                    }
+                    canvasEstado.fill();
+                    
+                    $("#eliminarUser"+(i+1)).click(function(){
+                        
+                        alertify.confirm('Advertencia', '¿Quieres eliminar este usuario?',
+                            //Aceptar 
+                            function(){ 
+                                var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
+                                
+                                var payload = Usuario.Correo;
+                                socket.emit('eliminarUser', payload);
+    
+                                socket.on("eliminacionCorrecta", function(data){
+                                    console.log("Se ha eliminado el usuario "+data);
+                                    alertify.alert("Advertencia", "Se ha eliminado el usuario "+data, function(){
+                                        alertify.error("Usuario eliminado correctamente");
+                                    });
+                                    $("#eliminarUser"+i).parent().parent().remove();
+                                });
+                            },
+                            
+                            function(){}
+                        ).set('labels', {ok:'Aceptar', cancel:'Cancelar'})
+                        .set({transition: 'slide', 'moveBounded': true});
+    
+                    });
+                    i++;
+                    
+                }
+            }
+            
+        }
+    
+        buscador.addEventListener('keyup', () => { 
+            filtrar();  
+            if (texto=='' && $('.dropdown label').text()=="Tipo de usuario"){
+                UsuariosAux=Usuarios;
+            }
+            paginarUsuarios(UsuariosAux);  
+        });
+    
+        paginarUsuarios(Usuarios);
+        filtrar();
+
+    </script>
+
+
+

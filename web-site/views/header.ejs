@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Amalgama</title>
+
+    
+    <!-- Favicon 
+    <link rel="icon" href="img/core-img/favicon.ico">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/alertify.css">
+    <link rel="stylesheet" href="css/themes/default.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<script src="js/jquery/jquery-2.2.4.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<header class="header-area">
+
+        <!-- Top Header Area -->
+        <div class="top-header-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="top-header-content d-flex align-items-center justify-content-between">
+                            <!-- Logo -->
+                            <div class="logo">
+                                <a href="/home"><img src="img/core-img/amalgama.png" style="height:49px; width:261px; " alt=""></a>
+                            </div>
+                              
+                            <div class="login-search-area d-flex align-items-center">
+                            <div class="login d-flex" id="usuarioLogeado">
+                                <% if (typouser=='Lector' && username==undefined){ %>
+                                    <a href="#" onclick="document.getElementById('id01').style.display='block';
+                                    document.getElementById('id01').style.backgroundColor='rgba(0, 0, 0, .5)'">Iniciar sesión</a>
+                                    <a href="#" onclick="document.getElementById('id02').style.display='block';
+                                    document.getElementById('id02').style.backgroundColor='rgba(0, 0, 0, .5)'">Registrarse</a>
+                                <% }else{ %>
+                                    <a href='#'>Bienvenido <%- username %></a>
+                                    <a href='/CerrarSesion' style='cursor:pointer;'>Cerrar Sesión</a>
+                                <% } %>
+                        
+                        </div>
+                                
+                            <!-- Search Form -->
+                            <div class="search-form">
+                                <form action="#" method="post">
+                                    <input type="search" name="search" class="form-control" placeholder="Buscar">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar Area -->
+        <div class="newspaper-main-menu" id="stickyMenu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                        </div>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul id="menuOpciones">
+                                    <!-- EL CONTENIDO CARGARÁ EN BASE AL USUARIO ACTUAL, SI LO HAY-->
+                                </ul>
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div id="id01" class="modal" style=" z-index:999 ">
+    
+            <form id="formLogin" class="modal-content animate" autocomplete="off" method="POST">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar">-->
+                </div>
+                
+                <div class="container">
+                    <label for="uname"><b>Usuario</b></label>
+                    <input type="text" placeholder="Enter Username" name="id" required>
+            
+                    <label for="psw"><b>Contraseña</b></label>
+                    <input type="password" placeholder="Enter Password" name="pw" required>
+                    
+                    <button type="submit">Login</button>
+                    <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
+            
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+        
+        <div id="id02" class="modal" style=" z-index:999 ">
+        
+                <form id="formRegister" class="modal-content animate" autocomplete="off" method="POST">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+                        <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar">-->
+                    </div>
+                    
+                    <div class="container">
+                        <label for="TipoUsuario"><b>Tipo de Usuario:</b></label><br>
+                        <select name="TipoUsuario" id="TipoUsuario">
+                            <option>Lector</option>
+                            <option>Escritor</option>
+                        </select><br>
+        
+                        <label for="mail"><b>Correo</b></label>
+                        <input type="email" placeholder="Introduce tu correo..." name="mail" required>
+                        
+                        <label for="name"><b>Nombre</b></label>
+                        <input type="text" placeholder="Introduce tu nombre..." name="name" required>
+            
+                        <label for="surname"><b>Apellidos</b></label>
+                        <input type="text" placeholder="Introduce tus apellidos..." name="surname" required>
+            
+                        <label for="user"><b>Nombre de usuario</b></label>
+                        <input type="text" placeholder="Introduce tu usuario..." name="user" required>
+            
+                        <label for="pw"><b>Contraseña</b></label>
+                        <input type="password" placeholder="Introduce tu contraseña..." name="pw" required>
+            
+                        <label for="pwCheck"><b>Confirmar contraseña</b></label>
+                        <input type="password" placeholder="Repite la contraseña..." name="pwCheck" required>
+                        
+                        <button type="submit" id="btnLogin">Login</button>
+                        <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                        </label>
+                    </div>
+                
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+                        <span class="psw">Forgot <a href="#">password?</a></span>
+                    </div>
+                </form>
+                <script>
+                //forzamos tanto el login como el registro, pero prevenimos que no se envíe el request por POST, y lo hacemos con sockets
+                $("#formRegister").submit(function(event){
+                    event.preventDefault();
+                    registrarUser();
+                });
+                
+                $("#formLogin").submit(function(event){
+                    event.preventDefault();
+                    comprobarLogin();
+                });
+                </script>
+            </div>
+            <br>
+        <% if (typouser=='undefined' || typouser=='Lector'){ %>
+            <script>
+                $("#menuOpciones").html(`
+                                        <li class="active"><a href="/home">Home</a></li>
+                                        <li><a href="/microrelatos">Microrelatos</a></li>
+                                        <li><a href="/cuentos">Cuentos</a></li>
+                                        <li><a href="/poemas">Poemas</a></li>
+                                        <li><a href="/relatos">Relatos Largos</a></li>
+                                        <li><a href="/contact">Contact</a></li>`);
+            </script>
+        <% }else if (typouser=='Escritor'){ %>
+            <script>
+                $("#menuOpciones").html(`
+                                        <li class="active"><a href="#">Home</a></li>
+                                        <li><a href="/microrelatos">Microrelatos</a></li>
+                                        <li><a href="/cuentos">Cuentos</a></li>
+                                        <li><a href="/poemas">Poemas</a></li>
+                                        <li><a href="/relatos">Relatos Largos</a></li>
+                                        <li><a href="/contact">Contact</a></li>
+                                        <li><a href="/escribe">Escribe!</a></li>`);
+            </script>
+        <% }else if (typouser=='admin'){ %>
+            <script>
+                console.log(typouser);
+                $("#menuOpciones").html(`
+                                            <li class='active'><a href='/homeB'>Home</a></li>
+                                            <li><a href='/usuariosB'>Usuarios</a></li>
+                                            <li><a href='/artsB'>Artículos</a></li>`);
+            </script>
+        <% } %>
+        <script>    
+            function makeid(length) {
+                var result           = '';
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                for ( var i = 0; i < length; i++ ) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+            var userName =  makeid(50);
+            var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
+            //login
+            function comprobarLogin(){
+                var payload ={
+                    user : $("input[name='id']").val(),
+                    pass : $("input[name='pw']").val(),
+                    userName: userName
+                }
+                socket.emit('ComprobarLogin', payload);
+            }
+            socket.emit('conection', userName);
+            //failed Login
+            socket.on('FailedLogin', async function(){
+                mensaje={
+                            tipo : "Error",
+                            cabecera: "El usuario introducido es incorrecto",
+                            info: "Usuario y/o contraseña incorrectos"
+                        }
+                alertify.alert(mensaje.tipo, mensaje.cabecera, function(){
+                alertify.error(mensaje.info);
+                })
+            });
+            //succes login
+            socket.on('LoginComprobado', async function(data){
+
+                $("#id01").css("display", "none");
+                var mensaje={};
+                console.log(data.tipo);
+                switch (data.tipo){
+                    case "admin":
+
+                        window.location.href="homeB";
+                        break;
+
+                    case "Lector":
+
+                        mensaje={
+                            tipo : "Información",
+                            cabecera : "Has iniciado sesión como Lector",
+                            info: "¡Bienvenido "+data.user+"!"
+                        }
+                        $("#menuOpciones").html(`
+                                        <li class="active"><a href="/home">Home</a></li>
+                                        <li><a href="/microrelatos">Microrelatos</a></li>
+                                        <li><a href="/cuentos">Cuentos</a></li>
+                                        <li><a href="/poemas">Poemas</a></li>
+                                        <li><a href="/relatos">Relatos Largos</a></li>
+                                        <li><a href="/contact">Contact</a></li>`);
+                        break;
+
+                    case "Escritor":
+
+                        mensaje={
+                            tipo : "Información",
+                            cabecera : "Has iniciado sesión como Escritor",
+                            info: "¡Bienvenido "+data.user+"!"
+                        }
+                        $("#menuOpciones").html(`
+                                        <li class="active"><a href="#">Home</a></li>
+                                        <li><a href="/microrelatos">Microrelatos</a></li>
+                                        <li><a href="/cuentos">Cuentos</a></li>
+                                        <li><a href="/poemas">Poemas</a></li>
+                                        <li><a href="/relatos">Relatos Largos</a></li>
+                                        <li><a href="/contact">Contact</a></li>
+                                        <li><a href="/escribe">Escribe!</a></li>`);
+                        break;
+                    }
+                    if (data.tipo!='admin'){
+                        $("#usuarioLogeado").html("<a href='#'>Bienvenido "+data.user+"</a><a href='/CerrarSesion'>Cerrar Sesión</a>");
+                        alertify.alert(mensaje.tipo, mensaje.cabecera, function(){
+                            alertify.success(mensaje.info);
+                        });
+                    }
+            });
+            //cerrar sesión
+            socket.on('cerrarSesion', function(){
+                alertify.confirm('Advertencia', '¿Quieres cerrar la sesión actual?',
+                    //Aceptar 
+                    function(){ 
+                        alertify.error('Se ha cerrado la sesión');
+                    },
+                    
+                    function(){}
+                ).set('labels', {ok:'Aceptar', cancel:'Cancelar'});
+            });
+            //registro
+            function registrarUser(){
+                var payload ={
+                    tipousuario: $( "#TipoUsuario option:selected" ).text(),
+                    mail : $("input[name='mail']").val(),
+                    name : $("input[name='name']").val(),
+                    surname : $("input[name='surname']").val(),
+                    user : $("input[name='user']").val(),
+                    pw : $("input[name='pw']").val(),
+                    pwCheck : $("input[name='pwCheck']").val()
+                }
+                socket.emit('registrarUser', payload);
+            }
+            socket.on('registroCorrecto', function(data){
+                $("#id02").css("display", "none");
+                alertify.alert("Información", "Bienvenido "+data.user, function(){
+                    alertify.success("Te has registrado como "+data.tipousuario);
+                });
+
+            });
+        </script>
+    
+        

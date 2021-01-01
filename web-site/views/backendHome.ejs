@@ -1,0 +1,229 @@
+<script src="js/Chart.min.js"></script>
+<script src="js/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+
+<div class="container">
+    <h2>Dashboard</h2>
+</div>
+
+<div class="container">
+    <main class="row">
+        <canvas id="myChartUserPop" class="col-sm-6"></canvas>
+        <canvas id="myChartArtPop" class="col-sm-6"></canvas>
+    </main>
+</div>
+
+<script>
+
+    let Usuarios = <%- JSON.stringify(users) %>;
+    let Articulos = <%- JSON.stringify(arts) %>;
+    
+    let myChartUserPop = document.getElementById("myChartUserPop").getContext('2d');
+    let myChartArtPop = document.getElementById("myChartArtPop").getContext('2d');
+    let UsuariosArts =[];
+    let NumArts =[];
+    let Nombres =[];
+    
+    //Opciones globales
+    // myChartArtPop.canvas.parentNode.style.height = '400px';
+    // myChartArtPop.canvas.parentNode.style.width = '400px';
+    Chart.defaults.global.defaultFontFamily='Lato';
+    Chart.defaults.global.defaultFontSize=18;
+    Chart.defaults.global.defaultFontColor='#777';
+
+    //devuelve el nombre y apellidos de los usuarios
+    function obtenerNombresDeUsuarios(){
+        UsuariosArts =[];
+        let UsuariosComprobados=[];
+        for (j=0;j<Articulos.length;j++){
+
+            //evitamos que se obtengan usuarios duplicados
+            if(UsuariosArts.filter(comprobarDuplicados).length==0){
+                UsuariosArts[j]= {
+                    Nombre: Articulos[j].autor,
+                    NumArts: Articulos.filter(obtenerArticulosUser).length
+                }
+            }
+        }
+        
+        //ordenaremos el array en base al nombre
+        UsuariosArts.sort(dynamicSort("Nombre"));
+
+        //obtenemos solo los números
+        for (i=0;i<UsuariosArts.length;i++){
+            if (UsuariosArts[i]){
+                Nombres[i]= UsuariosArts[i].Nombre;
+            }
+        }
+
+        return Nombres;
+    }
+    //esta función pretende asociar el nombre de usuario al número de artículos que ha escrito
+    function obtenerEscritosArtsDeUsuarios(){
+        UsuariosArts =[];
+        let UsuariosComprobados=[];
+        for (j=0;j<Articulos.length;j++){
+
+            //evitamos que se obtengan usuarios duplicados
+            if(UsuariosArts.filter(comprobarDuplicados).length==0){
+                UsuariosArts[j]= {
+                    Nombre: Articulos[j].autor,
+                    NumArts: Articulos.filter(obtenerArticulosUser).length
+                }
+            }
+        }
+        
+        //ordenaremos el array en base al nombre
+        UsuariosArts.sort(dynamicSort("Nombre"));
+
+        //obtenemos solo los números
+        for (i=0;i<UsuariosArts.length;i++){
+            if (UsuariosArts[i]){
+                NumArts[i]= UsuariosArts[i].NumArts;
+            }
+        }
+
+        return NumArts;
+    }
+
+    function obtenerArticulosUser(Articulo){
+        return Articulo.autor==Articulos[j].autor;
+    }
+
+    function comprobarDuplicados(UsuariosArts){
+        return UsuariosArts.Nombre==Articulos[j].autor;
+    }
+
+    //Función para ordenar objetos por parámetros dinámicamente
+    function dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
+    let userPopChart = new Chart(myChartUserPop, {
+        type: 'polarArea', //bar, horizontal bar, pie, line, donut, radar, polarArea
+        plugins: [ChartDataLabels],
+        data: {
+            labels: obtenerNombresDeUsuarios(), 
+            datasets: [{
+                label: 'Número de artículos', 
+                data: obtenerEscritosArtsDeUsuarios(),
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 75, 132, 0.6)',
+                    'rgba(255, 159, 132, 0.6)',
+                    'rgba(75, 199, 132, 0.6)'
+                ], 
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 3,
+                hoverBorderColor: '#000'
+            }]
+        }, 
+        options: {
+            title:{
+                display:true,
+                text: 'Escritor más currante',
+                fontSize: 18
+            },
+            legend:{
+                display: true,
+                position: 'right',
+                labels:{
+                    fontColor: '#000'
+                }
+            },
+            layout:{
+                padding:{
+                    left:50,
+                    right:0,
+                    bottom:0,
+                    top:0
+                }
+            },
+            tooltips:{
+                enabled:true
+            }
+        }
+    });
+
+    //Filtros para los diferentes tipos de artículos
+    function obtenerMicrorelatos(Articulo){
+        return Articulo.TipoArticulo=='Microrelato';
+    }
+    function obtenerCuentos(Articulo){
+        return Articulo.TipoArticulo=='Cuento';
+    }
+    function obtenerPoemas(Articulo){
+        return Articulo.TipoArticulo=='Poema';
+    }
+    function obtenerRelatosLargos(Articulo){
+        return Articulo.TipoArticulo=='Relato largo';
+    }
+    
+    let artPopChart = new Chart(myChartArtPop, {
+        type: 'polarArea', //bar, horizontal bar, pie, line, donut, radar, polarArea
+        plugins: [ChartDataLabels],
+        data: {
+            labels: ['Poemas', 'Microrelatos' ,'Cuentos', 'Relatos largos'], 
+            datasets: [{
+                label: 'Número de artículos', 
+                data: [
+                    Articulos.filter(obtenerPoemas).length,
+                    Articulos.filter(obtenerMicrorelatos).length,
+                    Articulos.filter(obtenerCuentos).length,
+                    Articulos.filter(obtenerRelatosLargos).length
+                ],
+                // backgroundColor: 'green',
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 75, 132, 0.6)',
+                    'rgba(255, 159, 132, 0.6)',
+                    'rgba(75, 199, 132, 0.6)'
+                ], 
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 3,
+                hoverBorderColor: '#000'
+            }]
+        }, 
+        options: {
+            title:{
+                display:true,
+                text: 'Tipos de artículos más populares',
+                fontSize: 18
+            },
+            legend:{
+                display: true,
+                position: 'right',
+                labels:{
+                    fontColor: '#000'
+                }
+            },
+            layout:{
+                padding:{
+                    left:50,
+                    right:0,
+                    bottom:0,
+                    top:0
+                }
+            },
+            tooltips:{
+                enabled:true
+            }
+        }
+    });
+</script>

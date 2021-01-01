@@ -1,0 +1,43 @@
+<!-- ##### Featured Post Area Start ##### -->
+    <script src="../js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="../js/alerts/alertify.js"></script>
+  
+    <div class="featured-post-area">
+        <div class="container">
+                    <div class="row">
+                            <div class="col-3 col-lg-3"> 
+                                </div>
+                            <div class="col-6-lg-6">
+                                    <div class="single-blog-post featured-post">
+                                            <div class="post-thumb">
+                                                <a href="#"><img src="../img/bg-img/<%=  arts.imagen %>"></a>
+                                            </div>
+                                            <div class="post-data">
+                                                    <a href="#" class="post-catagory"> <%=  arts.TipoArticulo %> </a>
+                                                    <div class="post-title">
+                                                        <h6><%=  arts.titulo %> </h6>
+                                                    </div>
+                                                    <div id="ContenidoArt">
+                                                   
+                                                    </div>
+                                                    <div class="post-meta">
+                                                        <p class="post-author">By <a href="javascript:void(0)"><%=  arts.autor %></a></p>
+                                                      
+                                                        <!-- Post Like & Post Comment -->
+                                                        
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="#" class="post-like"><img src="../img/core-img/like.png" alt=""> <span>392</span></a>
+                                                            <a href="#" class="post-comment"><img src="../img/core-img/chat.png" alt=""> <span>10</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    <div class="col-3 col-lg-3"> 
+                                        </div>
+                            </div>
+                          
+        </div>
+    </div>
+    <script>
+    $("#ContenidoArt").append(`<%- arts.Contenido %>`);
+    </script>
