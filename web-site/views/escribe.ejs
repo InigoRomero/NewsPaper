@@ -124,8 +124,6 @@
                             </div>
                         </form>
                             <script>    
-            
-                                var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
                                 //login
                                 function registrarArticulo(){
                                    
@@ -141,14 +139,11 @@
                                     socket.emit('registrarArticulo', payload);
                                 }
                                socket.on('ArticuloEnviado',function(){
-                                alertify.alert("Información", "El Articulo ha sido enviado correctamente", function(){
-                                    window.location.href="home";
-                                });
-
-                                
+                                    alertify.alert("Información", "El Articulo ha sido enviado correctamente", function(){
+                                        window.location.href="home";
+                                    });
                                 });
                                 $("#escritura").submit(function(event){
-                                    console.log("jajaja");
                                     event.preventDefault();
                                     registrarArticulo();
                                 });

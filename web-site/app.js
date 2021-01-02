@@ -32,7 +32,7 @@ let transporter = nodemailer.createTransport({
 database.initializeMongo();
 
 server.listen(3000, function(){
-    console.log("Servidor corriendo en http://192.168.1.38:3000");
+    console.log("Servidor corriendo en http://localhost:3000");
 });
 
 // view engine setup
@@ -201,7 +201,6 @@ ns.on('connection', function(socket){
          await  database.registrarArticulo(newArt);
         //enviamos la notificaciónS
         let i = 0;
-        console.log(users);
         while( i < users.length)
         {
             if(users[i].userName == data.userName)

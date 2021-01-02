@@ -184,7 +184,7 @@
                         canvasEstado.fillStyle = "red";
                         $("#canvas"+(i+1)).click(function(){
 
-                            var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
+                            var socket = io.connect('http://localhost:3000', { 'forceNew' : true});
                             
                             var payload = Usuario.Correo;
                             socket.emit('activacion', payload);
@@ -207,7 +207,7 @@
                         alertify.confirm('Advertencia', '¿Quieres eliminar este usuario?',
                             //Aceptar 
                             function(){ 
-                                var socket = io.connect('http://192.168.1.38:3000', { 'forceNew' : true});
+                                var socket = io.connect('http://localhost:3000', { 'forceNew' : true});
                                 
                                 var payload = Usuario.Correo;
                                 socket.emit('eliminarUser', payload);
