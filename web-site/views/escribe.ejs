@@ -134,7 +134,8 @@
                                         titulo : $("input[name='titulo']").val(),
                                         autor : $("input[name='autor']").val(),
                                         art :  $( "#art" ).text(),
-                                        descrip :  $("input[name='descrip']").val()
+                                        descrip :  $("input[name='descrip']").val(),
+                                        userName: userName
                                         //descrip : document.getElementById("art").value
                                     }
                                     socket.emit('registrarArticulo', payload);

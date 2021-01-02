@@ -30,25 +30,17 @@ exports.initializeMongo = async function(){
     mongoose.connect(DATABASE_CONNECTION, {useNewUrlParser: true});
     console.log('Trying to connect to ' + DATABASE_CONNECTION);
     db.createCollection("usuarios");
-    //Create ADMIN USER IF is first time launching APP
-    await userModel.findOne({username: "Sapo"}, function(err, c) { // el wait es necesario, ya que si no se ejecuta despues.
+    var json = require('./usuarios.json');
+    //Create Data if is fisrt time launching
+    await userModel.findOne({username: "Sapo"}, function(err, c) {
         if(c!=null){
             console.log("Bienvenido de Vuelta");
         }else{
-            adminUser = {    
-                TipoUsuario: "admin",
-                Correo: "iromero-@student.42madrid.com",
-                Nombre: "Iñigo",
-                Apellidos: "Romero",
-                username: "Sapo",
-                password: "admin",
-                Activado: true
-            };
-            userModel.insertMany(adminUser, function(err, result) {
+            userModel.insertMany(json, function(err, result) {
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log("Administrador creado");
+                  console.log("Datos de prueba creados");
                 }
               });
         }

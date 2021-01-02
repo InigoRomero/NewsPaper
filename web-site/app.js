@@ -201,6 +201,7 @@ ns.on('connection', function(socket){
          await  database.registrarArticulo(newArt);
         //enviamos la notificaciónS
         let i = 0;
+        console.log(users);
         while( i < users.length)
         {
             if(users[i].userName == data.userName)

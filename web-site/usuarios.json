@@ -1,0 +1,87 @@
+[
+  {
+    "_id": "5fef7376caefeb00138e3577",
+    "TipoUsuario": "admin",
+    "Correo": "iromero-@student.42madrid.com",
+    "Nombre": "Iñigo",
+    "Apellidos": "Romero",
+    "username": "Sapo",
+    "password": "admin",
+    "Activado": true,
+    "__v": 0
+  },
+  {
+    "_id": "5ff045bd87234f00a39753c8",
+    "TipoUsuario": "Escritor",
+    "Correo": "iromero-@student.42madrid.com",
+    "Nombre": "Iñigo",
+    "Apellidos": "Romero",
+    "username": "Edgar",
+    "password": "123",
+    "Activado": true,
+    "__v": 0
+  },
+  {
+    "_id": "5ff0460958faab00be4da686",
+    "TipoUsuario": "Lector",
+    "Correo": "iromero-@student.42madrid.com",
+    "Nombre": "Iñigo",
+    "Apellidos": "Romero",
+    "username": "Alan",
+    "password": "123",
+    "Activado": true,
+    "__v": 0
+  },
+  {
+    "_id": "5ff047657561a600e9482bb1",
+    "titulo": "Poesía Mundial",
+    "TipoArticulo": "Poema",
+    "imagen": "8.jpg",
+    "autor": "Iromero-",
+    "Descripción": "Es una Poesía dedicada a todas las nenas",
+    "Contenido": "<p>Me Encanto verte en el pasillo</p>\n<p>Nena me haces sentir vivo</p>\n<p>Me encanta tu código</p>\n<p>Pito</p>"
+  },
+  {
+    "_id": "5ff047aa965e1700f4fdaffc",
+    "titulo": "Oda a 42",
+    "TipoArticulo": "Poema",
+    "imagen": "7.jpg",
+    "autor": "Iromero-",
+    "Descripción": "Es una Poesía dedicada a todas las nenas",
+    "Contenido": "<p>Me Encanto verte en el pasillo</p>\n<p>Nena me haces sentir vivo</p>\n<p>Me encanta tu código</p>\n<p>Pito</p>"
+  },
+  {
+    "_id": "5ff0490162e89f00ff89941c",
+    "titulo": "Locura Descomunal",
+    "TipoArticulo": "Microrelato",
+    "imagen": "9.jpg",
+    "autor": "Iromero-",
+    "Descripción": "Monte",
+    "Contenido": "<p>Iba por el monte&nbsp;</p>\n<p><code>&nbsp;i++&nbsp;</code></p>\n<p>Decidí dejar de:</p>\n<ul>\n  <li>Bailar</li>\n  <li>Disfrutar</li>\n  <li>Vivir la vida</li>\n  <li>El Karaoke</li>\n</ul>\n<h1>&nbsp;Por Una vida por ti bb</h1>"
+  },
+  {
+    "_id": "5ff04b280ad218010a8e76af",
+    "Comentario": "Jaja que bueno",
+    "ArticuloTitulo": "Oda a 42",
+    "PropietarioArticulo": "Iromero-",
+    "OrigenComentario": "Alan",
+    "__v": 0
+  },
+  {
+    "_id": "5ff04b5d0ad218010a8e76b0",
+    "Comentario": "sadasd",
+    "ArticuloTitulo": "Oda a 42",
+    "PropietarioArticulo": "Iromero-",
+    "OrigenComentario": "Alan",
+    "__v": 0
+  },
+  {
+    "_id": "5ff04c0e0ad218010a8e76b1",
+    "titulo": "Relato Sobre mi",
+    "TipoArticulo": "Relato largo",
+    "imagen": "9.jpg",
+    "autor": "Iromero-",
+    "Descripción": "Yo SOy yo",
+    "Contenido": "<h1>Soy Probamente el mejor</h1>\n<h2>Vamos casi seguro el mejor</h2>\n<h3>Bua pero vamos que 100% el mejor</h3>\n<pre><code>while(iromero- == ElMejor)<br>\n{<br>\n &nbsp;&nbsp;&nbsp;cierto<br>\n}</code></pre>\n<p>Bucle infnito</p>\n<p><br></p>\n<p><br></p>"
+  }
+]
