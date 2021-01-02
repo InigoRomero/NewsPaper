@@ -196,7 +196,7 @@
                 </script>
             </div>
             <br>
-        <% if (typouser=='undefined' || typouser=='Lector'){ %>
+        <% if (typouser == 'undefined' || typouser == 'Lector'){ %>
             <script>
                 $("#menuOpciones").html(`
                                         <li class="active"><a href="/home">Home</a></li>
@@ -206,7 +206,7 @@
                                         <li><a href="/relatos">Relatos Largos</a></li>
                                         <li><a href="/contact">Contact</a></li>`);
             </script>
-        <% }else if (typouser=='Escritor'){ %>
+        <% }else if (typouser == 'Escritor'){ %>
             <script>
                 $("#menuOpciones").html(`
                                         <li class="active"><a href="#">Home</a></li>
@@ -217,9 +217,8 @@
                                         <li><a href="/contact">Contact</a></li>
                                         <li><a href="/escribe">Escribe!</a></li>`);
             </script>
-        <% }else if (typouser=='admin'){ %>
+        <% }else if (typouser == 'admin'){ %>
             <script>
-                console.log(typouser);
                 $("#menuOpciones").html(`
                                             <li class='active'><a href='/homeB'>Home</a></li>
                                             <li><a href='/usuariosB'>Usuarios</a></li>
@@ -267,7 +266,10 @@
                 console.log(data.tipo);
                 switch (data.tipo){
                     case "admin":
-
+                    $("#menuOpciones").html(`
+                                            <li class='active'><a href='/homeB'>Home</a></li>
+                                            <li><a href='/usuariosB'>Usuarios</a></li>
+                                            <li><a href='/artsB'>Artículos</a></li>`);
                         window.location.href="homeB";
                         break;
 

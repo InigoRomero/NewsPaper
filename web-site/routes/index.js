@@ -22,12 +22,12 @@ router.get('/',async function(req, res, next) {
   let users = await database.getUsers();
   if(session.user){
    
-    typouser=session.typouser;
-    if(session.typouser=="Escritor"){
-      username=session.user;
+    typouser = session.typouser;
+    if(session.typouser == "Escritor"){
+      username = session.user;
       res.render('index',{username : username, typouser: "Escritor", vista: "home", arts: arts});
-    }else if(session.typouser=="admin"){
-      username=session.user;
+    }else if(session.typouser == "admin"){
+      username = session.user;
       res.render('index',{username : username, typouser: "admin", vista: "backendHome", users:users});
     }
   }else{
@@ -38,7 +38,7 @@ router.get('/',async function(req, res, next) {
 //cargar vista contact ----------------------------------------------------------------
 router.get("/contact", function(req, res) {
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "contact"});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "contact"});
@@ -50,8 +50,8 @@ router.get("/home", async function(req, res) {
   let arts = await LoadArticulos();
   if(session.user){
       
-    typouser=session.typouser;
-    username=session.user;
+    typouser = session.typouser;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "home", arts:arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts:arts});
@@ -61,7 +61,7 @@ router.get("/home", async function(req, res) {
 router.get("/poemas", async function(req, res) {
   let arts = await database.articulosPoema();
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "home", arts:arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts:arts});
@@ -71,7 +71,7 @@ router.get("/poemas", async function(req, res) {
 router.get("/cuentos", async function(req, res) {
   let arts = await database.articulosCuento();
   if(session.user){
-    username=session.user;
+    username = session.user;
     
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "home", arts:arts});
   }else{
@@ -82,7 +82,7 @@ router.get("/cuentos", async function(req, res) {
 router.get("/relatos", async function(req, res) {
   let arts = await database.articulosRelatos();
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "home", arts:arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts:arts});
@@ -92,7 +92,7 @@ router.get("/relatos", async function(req, res) {
 router.get("/microrelatos", async function(req, res) {
   let arts = await database.articulosMicro();
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "home", arts:arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts:arts});
@@ -101,7 +101,7 @@ router.get("/microrelatos", async function(req, res) {
 //cargar vista  Escribe ----------------------------------------------------------------
 router.get("/escribe", function(req, res) {
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "escribe"});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "escribe"});
@@ -109,7 +109,7 @@ router.get("/escribe", function(req, res) {
 });
 /*BACKEND*/
 router.get("/homeB", async function(req, res){
-  username=session.user;
+  username = session.user;
   let arts = await LoadArticulos();
   let users = await database.getUsers();
   if (username){
@@ -120,18 +120,18 @@ router.get("/homeB", async function(req, res){
 });
 router.get("/usuariosB", async function(req, res){
   let users = await database.getUsers();
-  username=session.user;
+  username = session.user;
   if (session.user){
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: "admin", vista: "backendUsers", users: users});
 }else{
-    let arts = await LoadArticulos();
+    let arts  =  await LoadArticulos();
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts: arts});
 }
 });
 router.get("/artsB", async function(req, res){
   let arts = await LoadArticulos();
   if (session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: "admin", vista: "backendArts", arts: arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "home", arts: arts});
@@ -140,18 +140,18 @@ router.get("/artsB", async function(req, res){
 
 //cerrarSesionr
 router.get("/CerrarSesion", async function(req, res, next) {
-  session.user=undefined;
-  session.typouser=undefined;
+  session.user = undefined;
+  session.typouser = undefined;
   let arts = await LoadArticulos();
-  username=null;
+  username = null;
   res.render('index',{username : undefined, typouser: "Lector", vista: "home", arts: arts});
 });
 router.post("/articuloUnico", async function(req, res) {
 
-  let arts = await database.articuloUnico(req.body.arttitulo);
+  let arts  =  await database.articuloUnico(req.body.arttitulo);
 
   if(session.user){
-    username=session.user;
+    username = session.user;
     res.render(__dirname + "/../views/index.ejs", {username : username, typouser: session.typouser, vista: "articulounico",arts: arts});
   }else{
     res.render(__dirname + "/../views/index.ejs", {username : undefined, typouser: "Lector", vista: "articulounico",arts: arts});
